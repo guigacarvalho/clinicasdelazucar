@@ -159,4 +159,72 @@ class clinicas_api extends REST_Controller {
         $this->response($data);
     }
 
+    // Feedback HTTP verbs: PUT
+
+    // Creates a new feedback and respond with a status/errors
+    // Test: curl -X PUT -d type=1 -d message="I found this article..." -d userId=4 -d url="www.google.com" http://localhost/clinicas/index.php/clinicas_api/feedback/
+    function feedback_put() {
+        if(!$this->put()) {
+            $this->response(NULL, 400);
+        }
+        else 
+        {
+            $this->load->database();
+            $res = $this->db->insert('feedback', $this->put());
+            $this->response($res, 200);
+        }
+    }
+
+    // Favorites HTTP verbs: GET PUT DELETE
+
+    // Get all favorites for a specific userId.
+    // curl http://localhost/clinicas/index.php/clinicas_api/favorites/userId/4
+    function favorites_get() {
+        $this->load->database();
+        if(!$this->get('userId')) {
+            $this->response(NULL, 400);
+        } 
+        else {
+            $res = $this->db->
+                    get('favorites', $this->get('userId'), 0)->
+                    result_array();
+        }
+        $data = array_values($res);
+        $this->response($data);
+    } 
+
+    // Creates a new favorite and respond with a status/errors
+    // Test: curl -X PUT -d userId=4 -d articleId=1 http://localhost/clinicas/index.php/clinicas_api/favorite/
+    function favorite_put() {
+        if(!$this->put()) {
+            $this->response(NULL, 400);
+        }
+        else 
+        {
+            $this->load->database();
+            $res = $this->db->insert('favorites', $this->put());
+            $this->response($res, 200);
+        }
+    }
+
+    // Deletes favorites and respond with a status/errors
+    // curl -X DELETE http://localhost/clinicas/index.php/clinicas_api/favorite/articleId/1/userId/4
+    function favorite_delete() {
+        $this->load->database();
+        $data = $this->db->delete('favorites', array('userId' => $this->get('userId'), 'articleId' => $this->get('articleId') ));
+        $this->response($data);
+    }
+
+    // Categories HTTP verbs: GET
+    // Get all categories.
+    // curl http://localhost/clinicas/index.php/clinicas_api/categories/
+    function categories_get() {
+        $this->load->database();
+            $res = $this->db->
+                    get('categories')->
+                    result_array();
+        $data = array_values($res);
+        $this->response($data);
+    } 
+
 }
