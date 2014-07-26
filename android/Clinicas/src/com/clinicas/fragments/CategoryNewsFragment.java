@@ -37,7 +37,7 @@ import com.clinicas.R;
 public class CategoryNewsFragment extends Fragment {
 
 	ArticlesAdapter adapter;
-	static final String URL = "http://clinicas.engr.scu.edu/index.php/clinicas_api/articles/";
+	static final String URL = "http://clinicas.engr.scu.edu/index.php/clinicas_api/articles/filter/";
     // XML node keys
     static String articleType ="";
      public static final String KEY_ID = "articleId";

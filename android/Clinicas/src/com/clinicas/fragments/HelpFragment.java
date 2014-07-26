@@ -18,13 +18,13 @@ import com.clinicas.R;
 public class HelpFragment extends Fragment {
 	ViewPager mViewPager;
 	 HelpFragmentAdapter fragAdapter;
-	@Override
+	 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.help_fragment, container, false);
 		
 		mViewPager = (ViewPager) rootView.findViewById(R.id.help_pager);
-        fragAdapter = new HelpFragmentAdapter(getActivity().getSupportFragmentManager());
+        fragAdapter = new HelpFragmentAdapter(getChildFragmentManager());
         
         mViewPager.setAdapter(fragAdapter);
         

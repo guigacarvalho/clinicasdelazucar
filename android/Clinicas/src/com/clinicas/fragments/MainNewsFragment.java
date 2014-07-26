@@ -48,6 +48,16 @@ public class MainNewsFragment extends Fragment {
     ArrayList<HashMap<String, String>> articleList = new ArrayList<HashMap<String,String>>();
     ListView articleListView;
     
+    
+    public static MainNewsFragment newInstance(){
+    	return new MainNewsFragment();
+    }
+    
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

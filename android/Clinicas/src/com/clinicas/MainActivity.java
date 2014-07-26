@@ -19,7 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,6 +41,9 @@ import com.clinicas.fragments.CategoryNewsFragment;
 import com.clinicas.fragments.FeedbackFragment;
 import com.clinicas.fragments.HelpFragment;
 import com.clinicas.fragments.MainFragment;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 @SuppressLint("NewApi")
 public class MainActivity extends ActionBarActivity {
@@ -52,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String KEY_DESC = "description";
     public static final String KEY_PIC = "picture";
 	
-	private String[] drawerMenuTitles = {"Home", "Categories", "Feedback", "Account info", "Help"};
+	private String[] drawerMenuTitles;
     private DrawerLayout mDrawerLayout;
    // private ListView mDrawerList;
     private ExpandableListView mDrawerExpList;
@@ -76,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_main);
-		 
+		drawerMenuTitles = getResources().getStringArray(R.array.drawer_array);
 		mTitle = mDrawerTitle = getTitle();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
        // mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -136,6 +138,13 @@ public class MainActivity extends ActionBarActivity {
 		});
         selectItem(0);
         
+        
+        DisplayImageOptions options = new DisplayImageOptions.Builder().
+        		cacheOnDisk(true).build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).defaultDisplayImageOptions(options).
+        									diskCacheSize(100*1024*1024).build();
+        ImageLoader.getInstance().init(config);
+        
 	}
 	
 	
@@ -145,11 +154,11 @@ public class MainActivity extends ActionBarActivity {
         listDataChild = new HashMap<String, List<String>>();
  
         // Adding child data
-        listDataHeader.add("Home");
-        listDataHeader.add("Categories");
-        listDataHeader.add("Feedback");
-        listDataHeader.add("Account info");
-        listDataHeader.add("Help");
+        listDataHeader.add(drawerMenuTitles[0]);
+        listDataHeader.add(drawerMenuTitles[1]);
+        listDataHeader.add(drawerMenuTitles[2]);
+        listDataHeader.add(drawerMenuTitles[3]);
+        listDataHeader.add(drawerMenuTitles[4]);
  
         // Adding child data
         List<String> categories = new ArrayList<String>();
@@ -182,10 +191,7 @@ public class MainActivity extends ActionBarActivity {
 	
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(Intent.ACTION_MAIN);
-		intent.addCategory(Intent.CATEGORY_HOME);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(intent);
+		
 		super.onBackPressed();
 	}
 
@@ -231,7 +237,7 @@ public class MainActivity extends ActionBarActivity {
 		fragment = new CategoryNewsFragment();
         // Supply index input as an argument.
         Bundle args = new Bundle();
-        args.putString("type", "category/"+categoriesMapArray.get(childPosition).get(KEY_ID));
+        args.putString("type", "category/id/"+categoriesMapArray.get(childPosition).get(KEY_ID));
         fragment.setArguments(args);
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().remove(fragment).commit();

@@ -30,20 +30,17 @@ public class DrawerListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public Object getChild(int grpPos, int childPos) {
-		// TODO Auto-generated method stub
 		return this.groupChildren.get(this.groupHeader.get(grpPos)).get(childPos);
 	}
 
 	@Override
 	public long getChildId(int grpPos, int childPos) {
-		// TODO Auto-generated method stub
 		return childPos;
 	}
 
 	@Override
 	public View getChildView(int grpPos, int childPos, boolean isLastChild, View convertView,
 			ViewGroup parentView) {
-		// TODO Auto-generated method stub
 		
 		
 		final String childText = (String) getChild(grpPos, childPos);
@@ -63,38 +60,33 @@ public class DrawerListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(int grpPos) {
-		// TODO Auto-generated method stub
 		return this.groupChildren.get(this.groupHeader.get(grpPos))
                 .size();
 	}
 
 	@Override
 	public Object getGroup(int  grpPos) {
-		// TODO Auto-generated method stub
 		return this.groupHeader.get(grpPos);
 	}
 
 	@Override
 	public int getGroupCount() {
-		// TODO Auto-generated method stub
 		return this.groupHeader.size();
 	}
 
 	@Override
 	public long getGroupId(int grpPos) {
-		// TODO Auto-generated method stub
 		return grpPos;
 	}
 
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded,
             View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = infalInflater.inflate(R.layout.group_item, null);
+            convertView = infalInflater.inflate(R.layout.drawer_list_item, null);
         }
  
         TextView lblListHeader = (TextView) convertView
@@ -107,13 +99,11 @@ public class DrawerListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public boolean hasStableIds() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isChildSelectable(int arg0, int arg1) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 }

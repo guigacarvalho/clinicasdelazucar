@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Email" >
+        android:inputType="textEmailAddress"
+        android:hint="@string/email" >
 
         <requestFocus />
     </EditText>
@@ -20,14 +21,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Name" />
+        android:hint="@string/name" />
 
-    <EditText
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <TextView
         android:id="@+id/info_dob"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="DoB" />
+
+    <Button
+        android:id="@+id/dob_btn"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set" />
+        
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +54,7 @@
             android:id="@+id/gender_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gender"
+            android:text="@string/gender"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <RadioGroup
@@ -52,13 +68,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Male" />
+                android:text="@string/male" />
 
             <RadioButton
                 android:id="@+id/female"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Female" />
+                android:text="@string/female" />
 
         </RadioGroup>
 
@@ -73,7 +89,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Diabetes patient?"
+            android:text="@string/diabetes_patient"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <RadioGroup
@@ -87,13 +103,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Y" />
+                android:text="@string/yes" />
 
             <RadioButton
                 android:id="@+id/diabetes_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="N" />
+                android:text="@string/no" />
 
         </RadioGroup>
 
@@ -109,7 +125,7 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Clinicas patient?"
+            android:text="@string/clinicas_patient"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <RadioGroup
@@ -123,13 +139,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Y" />
+                android:text="@string/yes" />
 
             <RadioButton
                 android:id="@+id/clinicas_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="N" />
+                android:text="@string/no" />
 
         </RadioGroup>
 
@@ -139,7 +155,7 @@
             android:id="@+id/clinicas_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Clinicas ID"
+            android:hint="@string/clinicas_id"
             android:ems="10" />
 
         <EditText
@@ -147,7 +163,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10" 
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"/>
 
         <EditText

@@ -6,6 +6,9 @@
     -->
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
         <!-- API 11 theme customizations can go here. -->
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Clinicas</item>
     </style>
+    
+    
 
 </resources>

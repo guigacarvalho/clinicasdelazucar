@@ -2,9 +2,46 @@
 <resources>
 
     <string name="app_name">Clinicas</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-        <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+	<string name="email">Email</string>
+	<string name="password" >Password</string>
+	<string name="login">Login</string>
+	<string name="register">Register</string>
+	
+	<string-array name="tab_names">
+    	<item name="latest">Latest</item>
+		<item name="top">Top</item>
+		<item name="favorites">Favorites</item>
+	    
+	</string-array>
 
+
+	<string name="article_suggestion">Suggest article</string>
+	<string name="url">URL</string>
+	<string name="message">Message</string>
+	<string name="submit">Submit</string>
+	<string name="registration">Registration</string>
+	<string name="name">Name</string>
+	<string name="age">Age</string>
+	<string name="gender">Gender</string>
+	<string name="male">M</string>
+	<string name="female">F</string>
+	<string name="diabetes_patient">Diabetes patient?</string>
+	<string name="yes">Y</string>
+	<string name="no">N</string>
+	<string name="clinicas_patient">Clinicas patient?</string>
+	<string name="clinicas_id">Clinicas ID</string>
+	
+	<string name="comments">Comments</string>
+	
+	<string name="faqs">FAQs</string>
+	<string-array name="drawer_array">
+	    	<item name="home">Home</item>
+	    	<item name="category">Categories</item>
+			<item name="feedback">Feedback</item>
+			<item name="account_info">Account info</item>
+			<item name="help">Help</item>
+	</string-array>
 </resources>

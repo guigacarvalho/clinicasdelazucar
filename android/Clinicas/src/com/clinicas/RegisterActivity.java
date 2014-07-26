@@ -2,6 +2,7 @@ package com.clinicas;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -14,18 +15,23 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 
 public class RegisterActivity extends Activity {
 	static final String URL = "http://10.0.0.12/clinicas/index.php/clinicas_api/user/"; 
-	EditText name, email, dob, clinicasId;
+	EditText name, email, clinicasId;
+	TextView dob;
 	RadioGroup gender, diabetes, clinicas;
 	
 	@Override
@@ -39,7 +45,31 @@ public class RegisterActivity extends Activity {
 		
 		name = (EditText)findViewById(R.id.info_name);
 		email = (EditText)findViewById(R.id.info_email);
-		dob = (EditText)findViewById(R.id.info_dob);
+		dob = (TextView)findViewById(R.id.info_dob);
+		Button dobBtn = (Button)findViewById(R.id.dob_btn);
+		final OnDateSetListener dobListener = new OnDateSetListener() {
+			
+			@Override
+			public void onDateSet(DatePicker view, int year, int monthOfYear,
+					int dayOfMonth) {
+				dob.setText(monthOfYear+"/"+dayOfMonth+"/"+year);
+				
+			}
+		};
+		dobBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				 final Calendar c = Calendar.getInstance();
+                 int year = c.get(Calendar.YEAR);
+                 int month = c.get(Calendar.MONTH) ;
+                 int day = c.get(Calendar.DAY_OF_MONTH);
+				new DatePickerDialog(getApplicationContext(), dobListener, year, month, day).show();
+				
+			}
+		});
+		
+		
 		clinicasId = (EditText)findViewById(R.id.clinicas_id);
 		gender = (RadioGroup) findViewById(R.id.gender_group);
 		diabetes = (RadioGroup) findViewById(R.id.diabetes_group);

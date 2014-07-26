@@ -13,8 +13,6 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import com.clinicas.R;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,12 +26,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.clinicas.R;
 
 public class FeedbackFragment extends Fragment {
 
 	static String URL = "http://clinicas.engr.scu.edu/index.php/clinicas_api/feedback/";
 	Spinner feedbackTypes;
 	EditText url, msg;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -42,16 +44,17 @@ public class FeedbackFragment extends Fragment {
 		url = (EditText)rootView.findViewById(R.id.feedback_url);
 		msg = (EditText)rootView.findViewById(R.id.feedback_msg);
 		
+		
 		List<String> list = new ArrayList<String>();
 		list.add("Article suggestion");
 		list.add("Errors");
 		list.add("Bug reports");
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-			android.R.layout.simple_spinner_item, list);
+			R.layout.spinner_list_item, list);
 		ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
 		actionBar.removeAllTabs();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		dataAdapter.setDropDownViewResource(R.layout.spinner_list_item);
 		feedbackTypes.setAdapter(dataAdapter);
 		
 		Button submit = (Button)rootView.findViewById(R.id.feedback_submit);
@@ -64,23 +67,29 @@ public class FeedbackFragment extends Fragment {
 		});
 		
 		
+		
 		return rootView;
 	}
 
 	
 	
-	class SubmitFeedback extends AsyncTask<Void, Void, Void>{
+	class SubmitFeedback extends AsyncTask<Void, Void, Integer>{
 
 		@Override
-		protected Void doInBackground(Void... params) {
-			postData();
-			return null;
+		protected Integer doInBackground(Void... params) {
+			
+			return postData();
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
+		protected void onPostExecute(Integer result) {
 		
-			super.onPostExecute(result);
+			if(result==200){
+				Toast.makeText(getActivity().getApplicationContext(), "Feedback submitted", Toast.LENGTH_SHORT).show();
+	        	url.setText("");
+	        	msg.setText("");
+				super.onPostExecute(result);
+			}
 		}
 		
 		
@@ -89,7 +98,7 @@ public class FeedbackFragment extends Fragment {
 	}
 	
 	
-	public void postData() {
+	public int postData() {
 	    // Create a new HttpClient and Post Header
 	    HttpClient httpclient = new DefaultHttpClient();
 	    HttpPut httpput = new HttpPut(URL);
@@ -105,13 +114,17 @@ public class FeedbackFragment extends Fragment {
 
 	        // Execute HTTP Post Request
 	        HttpResponse response = httpclient.execute(httpput);
-	        System.out.println(response);
+	        if(response.getStatusLine().getStatusCode()==200){
+	        	
+	        	return 200;
+	        }
 	        
 	    } catch (ClientProtocolException e) {
-	        // TODO Auto-generated catch block
+	        
 	    } catch (IOException e) {
-	        // TODO Auto-generated catch block
+	        
 	    }
+	    return -1;
 	}
 	
 	

@@ -7,13 +7,15 @@
     <Spinner
         android:id="@+id/feedback_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" 
+        />
 
     <EditText
         android:id="@+id/feedback_url"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="URL"
+        android:hint="@string/url"
+        android:inputType="textUri"
         android:ems="10" >
 
         <requestFocus />
@@ -22,10 +24,11 @@
     <EditText
         android:id="@+id/feedback_msg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="0.29"
-        android:hint="Message"
         android:ems="10"
+        android:gravity="top"
+        android:hint="@string/message"
         android:inputType="textPostalAddress" />
 
     <Button

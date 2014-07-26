@@ -21,14 +21,15 @@ public class MainFragment extends Fragment {
 
 	ViewPager mViewPager;
 	 MainFragmentAdapter fragAdapter;
+	 String[] tabNames;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-		
+		tabNames = getResources().getStringArray(R.array.tab_names);
 		
 		mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
-        fragAdapter = new MainFragmentAdapter(getActivity().getSupportFragmentManager());
+        fragAdapter = new MainFragmentAdapter(getChildFragmentManager());
         
         mViewPager.setAdapter(fragAdapter);
         
@@ -36,6 +37,7 @@ public class MainFragment extends Fragment {
         ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
         actionBar.removeAllTabs();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        
         TabListener tabListener = new TabListener() {
 			
 			@Override
@@ -100,17 +102,17 @@ public class MainFragment extends Fragment {
         	switch(i){
 			case 0:
         	actionBar.addTab(actionBar.newTab()
-                        .setText("Latest")
+                        .setText(tabNames[0])
                         .setTabListener(tabListener));
         	break;
 			case 1:
 		    	actionBar.addTab(actionBar.newTab()
-                        .setText("Top")
+                        .setText(tabNames[1])
                         .setTabListener(tabListener));
 		    	break;
 			case 2:
 		    	actionBar.addTab(actionBar.newTab()
-                        .setText("Favorites")
+                        .setText(tabNames[2])
                         .setTabListener(tabListener));
 		    	break;
         	}

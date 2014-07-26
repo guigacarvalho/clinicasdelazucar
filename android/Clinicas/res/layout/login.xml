@@ -9,7 +9,7 @@
         android:layout_below="@+id/imageView1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="59dp"
-        android:hint="Name"
+        android:hint="@string/name"
         android:ems="10" >
 
         <requestFocus />
@@ -23,7 +23,7 @@
         android:layout_below="@+id/login_email"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword" />
 
     <ImageView

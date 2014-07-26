@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -22,20 +23,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 
 import com.clinicas.R;
 
@@ -44,7 +54,8 @@ public class AccountInfoFragment extends Fragment {
 	static final String URL = "http://clinicas.engr.scu.edu/index.php/clinicas_api/user/";
 	static String userId = "";
 	public static final String PREFS_NAME = "ClinicasPrefs";
-	EditText clinicasID,rptPassword, email, name, dob;
+	EditText clinicasID,rptPassword, email, name;
+	TextView dob;
 	RadioGroup clinicasRG, diabetesRG, genderRG ;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,7 +71,30 @@ public class AccountInfoFragment extends Fragment {
 		infoRoot.removeView(rptPassword);
 		email = (EditText)rootView.findViewById(R.id.info_email);
 		name = (EditText)rootView.findViewById(R.id.info_name);
-		dob = (EditText)rootView.findViewById(R.id.info_dob);
+		dob = (TextView)rootView.findViewById(R.id.info_dob);
+		Button dobBtn = (Button)rootView.findViewById(R.id.dob_btn);
+		final OnDateSetListener dobListener = new OnDateSetListener() {
+			
+			@Override
+			public void onDateSet(DatePicker view, int year, int monthOfYear,
+					int dayOfMonth) {
+				dob.setText(monthOfYear+"/"+dayOfMonth+"/"+year);
+				
+			}
+		};
+		dobBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				 final Calendar c = Calendar.getInstance();
+                 int year = c.get(Calendar.YEAR);
+                 int month = c.get(Calendar.MONTH) ;
+                 int day = c.get(Calendar.DAY_OF_MONTH);
+				new DatePickerDialog(getActivity(), dobListener, year, month, day).show();
+				
+			}
+		});
+		
 		diabetesRG = (RadioGroup)rootView.findViewById(R.id.diabetes_group);
 		Bundle args = getArguments();
 		userId = "userId/"+args.getString("userId");
@@ -93,7 +127,9 @@ public class AccountInfoFragment extends Fragment {
         new LoadUser().execute();
 		return rootView;
 	}
-
+	
+	
+	
 	
 	class UpdateUser extends AsyncTask<Void, Void, Void>{
 

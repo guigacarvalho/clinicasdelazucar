@@ -17,7 +17,7 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public Fragment getItem(int index) {
-		MainNewsFragment f = new MainNewsFragment();
+		MainNewsFragment f = MainNewsFragment.newInstance();
         // Supply index input as an argument.
         Bundle args = new Bundle();
 		switch (index) {
@@ -26,22 +26,38 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
         	
             args.putString("type", "latest");
             f.setArguments(args);
-            return f;
+            break;
         case 1:
 
         	
             args.putString("type", "top");
             f.setArguments(args);
-            return f;
+            break;
         case 2:
 
         	args.putString("type", "favorites");
             f.setArguments(args);
-            return f;
+            break;
 
         }
-		return null;
+		System.out.println("returning null");
+        
+		return f;
 	}
+	
+	 @Override
+     public CharSequence getPageTitle(int position) {
+        // Locale l = Locale.getDefault();
+         switch (position) {
+         case 0:
+             return "Latest";
+         case 1:
+             return "Top";
+         case 2:
+             return "Favorites";
+         }
+         return null;
+     }
 
 	@Override
 	public int getCount() {
