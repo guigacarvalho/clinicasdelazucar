@@ -35,8 +35,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.RatingBar.OnRatingBarChangeListener;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class ArticleActivity extends ActionBarActivity {
 	
@@ -44,12 +45,14 @@ public class ArticleActivity extends ActionBarActivity {
 
 
 	static final String URL = "http://clinicas.engr.scu.edu/index.php/clinicas_api/";
-	static String article_URL = "article/articleId/";
-	static String review_URL = "review";
+	static String ARTICLE_URL = "article/articleId/";
+	static String GET_REVIEW_URL = "reviews/articleId/";
+	
+	static String PUT_REVIEW_URL = "review";
 	ImageView articleImage;
 	TextView articleTitle,  articleDate;
 	EditText comment;
-	WebView articleContent;
+	WebView articleContent, articleComments;
 	String articleId;
 	RatingBar rating;
 	@Override
@@ -65,6 +68,7 @@ public class ArticleActivity extends ActionBarActivity {
 		articleContent = (WebView) findViewById(R.id.article_content);
 		articleDate = (TextView) findViewById(R.id.article_date);
 		articleId = getIntent().getExtras().getString("articleId");
+		articleComments = (WebView) findViewById(R.id.article_comments);
 		rating = (RatingBar) findViewById(R.id.article_rating);
 		comment = (EditText) findViewById(R.id.article_comment);
 		Button submitComments = (Button)findViewById(R.id.comment_submit);
@@ -73,7 +77,7 @@ public class ArticleActivity extends ActionBarActivity {
 			
 			@Override
 			public void onClick(View arg0) {
-				
+				new SubmitComment().execute();
 			}
 		});
 		
@@ -117,7 +121,7 @@ public class ArticleActivity extends ActionBarActivity {
 				 
 			      // defaultHttpClient
 			      DefaultHttpClient httpClient = new DefaultHttpClient();
-			      HttpGet httpGet = new HttpGet(URL+article_URL+articleId);
+			      HttpGet httpGet = new HttpGet(URL+ARTICLE_URL+articleId);
 			      HttpResponse httpResponse = httpClient.execute(httpGet);
 			      HttpEntity httpEntity = httpResponse.getEntity();
 			      is = httpEntity.getContent();
@@ -164,6 +168,7 @@ public class ArticleActivity extends ActionBarActivity {
 				articleTitle.setText(result.getString("title"));
 				articleDate.setText(result.getString("date"));
 				new ImageDownloader().execute(result.getString("pictureUrl"));
+				new GetFeedback().execute();
 			} catch (JSONException e) {
 				
 				e.printStackTrace();
@@ -196,20 +201,106 @@ public class ArticleActivity extends ActionBarActivity {
 		  }
 		}
 	
+	class GetFeedback extends AsyncTask<Void, Void, JSONArray> {
+		  
+
+		  protected JSONArray doInBackground(Void... urls) {
+			  InputStream is = null;
+				 JSONArray jArray = null;
+				 
+				// JSONObject jObj = new JSONObject();
+				 String json = "";
+				 try {
+					 
+				      // defaultHttpClient
+				      DefaultHttpClient httpClient = new DefaultHttpClient();
+				      HttpGet httpGet = new HttpGet(URL+GET_REVIEW_URL+articleId);
+				      HttpResponse httpResponse = httpClient.execute(httpGet);
+				      HttpEntity httpEntity = httpResponse.getEntity();
+				      is = httpEntity.getContent();
+				    } catch (UnsupportedEncodingException e) {
+				      e.printStackTrace();
+				    } catch (ClientProtocolException e) {
+				      e.printStackTrace();
+				    } catch (IOException e) {
+				      e.printStackTrace();
+				    }
+				    try {
+				      BufferedReader reader = new BufferedReader(new InputStreamReader(
+				          is), 8);
+				      StringBuilder sb = new StringBuilder();
+				      String line = null;
+				      while ((line = reader.readLine()) != null) {
+				        sb.append(line + "n");
+				      }
+				      is.close();
+				      json = sb.toString();
+				      
+				    } catch (Exception e) {
+				      
+				    }
+				    // try parse the string to a JSON object
+				    try {
+				      jArray = new JSONArray(json);
+				      
+				     
+					    	
+					    	
+				    } catch (JSONException e) {
+				      
+				    }
+				//return jObj;
+					return jArray;
+		  }
+
+		  protected void onPostExecute(JSONArray result) {
+		     // articleImage.setImageBitmap(result);
+			  try {
+			  float userRating = 0;
+			  JSONObject jObj = new JSONObject();
+			  String comments="";
+			  for(int i=0;i<result.length();i++){
+		    	  jObj = result.getJSONObject(i);
+		    	  if(jObj.getString("comments").length()!=0 && jObj.getString("articleId").equals(articleId)){
+		    		  comments+="<b>"+jObj.getString("comments")+"</b><br/>";
+		    	  }
+		    	  if(jObj.get("userId").toString().equals("0") && jObj.getString("articleId").equals(articleId))
+		    		  userRating = Float.parseFloat(jObj.getString("rating").toString());
+		    	  else
+		    		  jObj=null;
+		    	  
+		    	  
+		      }
+			  if(jObj!=null){
+				  
+					rating.setRating(userRating);
+				
+			  }
+			  articleComments.loadData(comments, "text/html", null);
+			  
+			  } catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		  }
+		}
+	
 	
 	class SendFeedback extends AsyncTask<Void, Void, Void>{
 
 		@Override
 		protected Void doInBackground(Void... params) {
 			HttpClient httpclient = new DefaultHttpClient();
-		    HttpPut httpput = new HttpPut(URL+review_URL);
+		    HttpPut httpput = new HttpPut(URL+PUT_REVIEW_URL);
 
 		    try {
 		        // Add your data
 		        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		        nameValuePairs.add(new BasicNameValuePair("rating", Float.toString(rating.getRating())));
 		        nameValuePairs.add(new BasicNameValuePair("articleId", articleId));
-		        
+		        nameValuePairs.add(new BasicNameValuePair("userId", "0"));
+
 
 		        httpput.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
@@ -231,26 +322,26 @@ public class ArticleActivity extends ActionBarActivity {
 	}
 	
 	
-	class SubmitComment extends AsyncTask<Void, Void, Void>{
+	class SubmitComment extends AsyncTask<Void, Void, Integer>{
 
 		@Override
-		protected Void doInBackground(Void... arg0) {
+		protected Integer doInBackground(Void... arg0) {
 			HttpClient httpclient = new DefaultHttpClient();
-		    HttpPut httpput = new HttpPut(URL+review_URL);
+		    HttpPut httpput = new HttpPut(URL+PUT_REVIEW_URL);
 
 		    try {
 		        // Add your data
 		        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		        nameValuePairs.add(new BasicNameValuePair("comments",comment.getText().toString()));
 		        nameValuePairs.add(new BasicNameValuePair("articleId", articleId));
-		        
+		        nameValuePairs.add(new BasicNameValuePair("userId", "0"));
 
 		        httpput.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 		        // Execute HTTP Post Request
 		        HttpResponse response = httpclient.execute(httpput);
 		        if(response.getStatusLine().getStatusCode()==200){
-		        	
+		        	return 200;
 		        	//return 200;
 		        }
 		        
@@ -259,7 +350,18 @@ public class ArticleActivity extends ActionBarActivity {
 		    } catch (IOException e) {
 		        
 		    }
-			return null;
+			return -1;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result==200){
+				Toast.makeText(getApplicationContext(), "Comment submitted", Toast.LENGTH_SHORT).show();
+	        	comment.setText("");
+	        	
+				super.onPostExecute(result);
+			}
+			super.onPostExecute(result);
 		}
 
 		

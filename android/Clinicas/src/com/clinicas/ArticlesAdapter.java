@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.jsoup.Jsoup;
 
 import com.clinicas.fragments.MainNewsFragment;
+import com.database.Article;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -24,13 +25,13 @@ public class ArticlesAdapter extends BaseAdapter {
 
 	
 	private Activity activity;
-    private ArrayList<HashMap<String, String>> data;
+    private ArrayList<Article> data;
     private static LayoutInflater inflater=null;
     ArrayList<HashMap<String, String>> categoriesMapArray;
     
     
 	public ArticlesAdapter(Activity activity,
-			ArrayList<HashMap<String, String>> data) {
+			ArrayList<Article> data) {
 		super();
 		this.activity = activity;
 		this.data = data;
@@ -39,7 +40,7 @@ public class ArticlesAdapter extends BaseAdapter {
 	}
 
 	
-	public void setData(ArrayList<HashMap<String, String>> data) {
+	public void setData(ArrayList<Article> data) {
 		this.data = data;
 	}
 
@@ -81,21 +82,36 @@ public class ArticlesAdapter extends BaseAdapter {
 						.cacheOnDisk(true)
 						.imageScaleType(ImageScaleType.EXACTLY)
 						.displayer(new RoundedBitmapDisplayer (20)).build();
-		HashMap<String, String> article = new HashMap<String, String>();
+		Article article ;
+		
 		article = data.get(position);
-		imageLoader.displayImage(article.get(MainNewsFragment.KEY_PIC), img, options);
-		title.setText(article.get(MainNewsFragment.KEY_TITLE));
-		date.setText(article.get(MainNewsFragment.KEY_DATE));
+/*		
+		 System.out.println("-------------------------------------------------");
+		  System.out.println("IN ADAPTER");
+		  System.out.println("-------------------------------------------------");
+		  System.out.println("Aid:"+article.getArticleId());
+			System.out.println("CID:"+article.getCategoryId());
+			System.out.println("Content:"+article.getContent());
+			System.out.println("date:"+article.getDate());
+			System.out.println(article.getId());
+			System.out.println("Favs:"+article.getNumberOfFavorites());
+			System.out.println("Pic:"+article.getPictureUrl());
+			System.out.println("Title:"+article.getTitle());
+			System.out.println("-------------------------------------------------");*/
+		//System.out.println("PictureURL:"+article.getPictureUrl());
+		imageLoader.displayImage(article.getPictureUrl(), img, options);
+		title.setText(article.getTitle());
+		date.setText(article.getDate());
 		for (HashMap<String, String> map : categoriesMapArray) {
 			
-			if(map.get(MainNewsFragment.KEY_CAT).equals(article.get(MainNewsFragment.KEY_CAT))){
+			if(map.get(MainNewsFragment.KEY_CAT).equals(article.getCategoryId())){
 				category.setText(map.get(MainNewsFragment.KEY_TITLE));
 				//System.out.println("category="+map.get(MainNewsFragment.KEY_TITLE));
 				break;
 			}
 		}
 		
-		text.setText(Jsoup.parse(article.get(MainNewsFragment.KEY_TEXT).substring(0, 30)).text());
+		text.setText(Jsoup.parse(article.getContent().substring(0, 30)).text());
 		return v;
 	}
 

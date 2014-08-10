@@ -7,8 +7,10 @@
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
         <!-- API 11 theme customizations can go here. -->
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Clinicas</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Clinicas</item>
+        <item name="android:actionBarTabTextStyle">@style/My.TabText.Style</item>
     </style>
     
-    
+     
 
 </resources>

@@ -8,7 +8,19 @@
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- API 14 theme customizations can go here. -->
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Clinicas</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Clinicas</item>
+        <item name="android:actionBarTabTextStyle">@style/My.TabText.Style</item>
     </style>
-
+    
+     <style name="My.TabText.Style" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textAllCaps">false</item>
+    </style>
+    
+	<style name="ActionBar.Solid.Clinicas" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@drawable/ab_solid_clinicas</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_clinicas</item>
+        <item name="backgroundSplit">@drawable/ab_bottom_solid_clinicas</item>
+        
+    </style>
     
 </resources>

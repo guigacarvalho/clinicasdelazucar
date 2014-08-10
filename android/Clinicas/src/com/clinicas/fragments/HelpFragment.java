@@ -67,12 +67,12 @@ public class HelpFragment extends Fragment {
         	switch(i){
 			case 0:
         	actionBar.addTab(actionBar.newTab()
-                        .setText("About")
+                        .setText(getResources().getString(R.string.about))
                         .setTabListener(tabListener));
         	break;
 			case 1:
 		    	actionBar.addTab(actionBar.newTab()
-                        .setText("FAQs")
+                        .setText(getResources().getString(R.string.faqs))
                         .setTabListener(tabListener));
 		    	break;
 			

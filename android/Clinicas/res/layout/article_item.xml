@@ -18,7 +18,11 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/logo_clinicas" />
-
+<View	android:id="@+id/div1"
+             android:layout_width="fill_parent"
+             android:layout_below="@+id/article_image"
+             android:layout_height="2dp"
+             android:background="#F78E1E"/>
     <TextView
         android:id="@+id/article_title"
         android:layout_width="wrap_content"
@@ -35,10 +39,10 @@
     <RatingBar
         android:id="@+id/article_rating"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/article_image"
-        />
+        android:progressDrawable="@drawable/rating_bar_drawable" />
 
     <TextView
         android:id="@+id/article_date"
@@ -56,13 +60,22 @@
         android:layout_height="wrap_content"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+<View	android:id="@+id/div2"
+             android:layout_width="fill_parent"
+             
+             android:layout_height="2dp"
+             android:background="#F78E1E"/>
     <TextView
         android:id="@+id/article_comment_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/comments"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <WebView
+        android:id="@+id/article_comments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/article_comment"

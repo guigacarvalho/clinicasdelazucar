@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -198,7 +199,7 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		//getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
@@ -210,10 +211,7 @@ public class MainActivity extends ActionBarActivity {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
+		
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -237,13 +235,17 @@ public class MainActivity extends ActionBarActivity {
 		fragment = new CategoryNewsFragment();
         // Supply index input as an argument.
         Bundle args = new Bundle();
-        args.putString("type", "category/id/"+categoriesMapArray.get(childPosition).get(KEY_ID));
+        args.putString("CATEGORY_ID", categoriesMapArray.get(childPosition).get(KEY_ID));
         fragment.setArguments(args);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().remove(fragment).commit();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        //ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+        ft.replace(R.id.content_frame, fragment).commit();
+        //fragmentManager.beginTransaction().remove(fragment).commit();
+        //fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         setTitle(categoriesMapArray.get(childPosition).get(KEY_TITLE));
         mDrawerLayout.closeDrawer(mDrawerExpList);
+        
 	}
 	
 	private void selectItem(int position) {
@@ -256,9 +258,7 @@ public class MainActivity extends ActionBarActivity {
 	        
 	        fragment.setArguments(args);
 
-	        FragmentManager fragmentManager = getSupportFragmentManager();
-	        fragmentManager.beginTransaction().remove(fragment).commit();
-	        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+	        
 	        }
 			break;
 		case 2:
@@ -268,8 +268,7 @@ public class MainActivity extends ActionBarActivity {
             
             fragment.setArguments(args);
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            
         }
 		break;
 		case 3:
@@ -281,8 +280,7 @@ public class MainActivity extends ActionBarActivity {
             args.putString("userId", settings.getString("userId", ""));
             fragment.setArguments(args);
             
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            
         }
 		break;
 		case 4:
@@ -292,17 +290,17 @@ public class MainActivity extends ActionBarActivity {
             
             fragment.setArguments(args);
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().remove(fragment).commit();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            
             
         }
 		break;
 		default:
 			break;
 		}
-		
-		
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction ft = fragmentManager.beginTransaction();
+        //ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+        ft.replace(R.id.content_frame, fragment).commit();
         
         // update selected item and title, then close the drawer
         //mDrawerList.setItemChecked(position, true);
@@ -366,6 +364,7 @@ public class MainActivity extends ActionBarActivity {
 				    	JSONObject jObj = jArray.getJSONObject(i);
 				    	map = new HashMap<String, String>();
 				    	map.put(KEY_TITLE, jObj.getString(KEY_TITLE));
+				    	System.out.println(jObj.getString(KEY_TITLE));
 				    	map.put(KEY_PIC, jObj.getString(KEY_PIC));
 				    	map.put(KEY_ID, jObj.getString(KEY_ID));
 				    	categoriesMapArray.add(map);

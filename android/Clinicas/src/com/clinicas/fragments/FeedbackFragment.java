@@ -46,9 +46,9 @@ public class FeedbackFragment extends Fragment {
 		
 		
 		List<String> list = new ArrayList<String>();
-		list.add("Article suggestion");
-		list.add("Errors");
-		list.add("Bug reports");
+		list.add(getResources().getString(R.string.article_suggestion));
+		list.add(getResources().getString(R.string.error));
+		list.add(getResources().getString(R.string.bug_report));
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),
 			R.layout.spinner_list_item, list);
 		ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
