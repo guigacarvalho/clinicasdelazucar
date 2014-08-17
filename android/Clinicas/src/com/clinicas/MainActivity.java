@@ -61,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
     private ExpandableListView mDrawerExpList;
     ActionBarDrawerToggle mDrawerToggle;
     
-    private CharSequence mDrawerTitle;
+    //private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     Fragment fragment;
     
@@ -80,13 +80,16 @@ public class MainActivity extends ActionBarActivity {
 		
 		setContentView(R.layout.activity_main);
 		drawerMenuTitles = getResources().getStringArray(R.array.drawer_array);
-		mTitle = mDrawerTitle = getTitle();
+		mTitle =  getTitle();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
        // mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerExpList = (ExpandableListView) findViewById(R.id.expandableListView1);
         prepareListData();
         drawerAdapter = new DrawerListAdapter(getApplicationContext(),listDataHeader, listDataChild);
         mDrawerExpList.setAdapter(drawerAdapter);
+        
+        
+        
        /* mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, drawerMenuTitles));*/
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -103,12 +106,12 @@ public class MainActivity extends ActionBarActivity {
                 R.string.drawer_close  /* "close drawer" description for accessibility */
                 ) {
             public void onDrawerClosed(View view) {
-            	getSupportActionBar().setTitle(mTitle);
+            	//getSupportActionBar().setTitle(mTitle);
                 supportInvalidateOptionsMenu(); 
             }
 
             public void onDrawerOpened(View drawerView) {
-            	getSupportActionBar().setTitle(mDrawerTitle);
+            	//getSupportActionBar().setTitle(mDrawerTitle);
                 supportInvalidateOptionsMenu(); 
             }
                 
@@ -130,7 +133,7 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
 					int childPosition, long id) {
-				System.out.println(categoriesMapArray.get(childPosition).get(KEY_ID));
+			//	System.out.println(categoriesMapArray.get(childPosition).get(KEY_ID));
 				selectCategory(childPosition);
 				return false;
 			}
@@ -149,6 +152,12 @@ public class MainActivity extends ActionBarActivity {
 	}
 	
 	
+	public int GetPixelFromDips(float pixels) {
+	    // Get the screen's density scale 
+	    final float scale = getResources().getDisplayMetrics().density;
+	    // Convert the dps to pixels, based on density scale
+	    return (int) (pixels * scale + 0.5f);
+	}
 	
 	private void prepareListData() {
         listDataHeader = new ArrayList<String>();
@@ -234,21 +243,23 @@ public class MainActivity extends ActionBarActivity {
 	private void selectCategory(int childPosition) {
 		fragment = new CategoryNewsFragment();
         // Supply index input as an argument.
-        Bundle args = new Bundle();
+		mDrawerLayout.closeDrawer(mDrawerExpList);
+		Bundle args = new Bundle();
         args.putString("CATEGORY_ID", categoriesMapArray.get(childPosition).get(KEY_ID));
         fragment.setArguments(args);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = fragmentManager.beginTransaction();
-        //ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+        ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
         ft.replace(R.id.content_frame, fragment).commit();
         //fragmentManager.beginTransaction().remove(fragment).commit();
         //fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         setTitle(categoriesMapArray.get(childPosition).get(KEY_TITLE));
-        mDrawerLayout.closeDrawer(mDrawerExpList);
+        
         
 	}
 	
 	private void selectItem(int position) {
+		mDrawerLayout.closeDrawer(mDrawerExpList);
         // update the main content by replacing fragments
 		switch (position) {
 		case 0:
@@ -299,7 +310,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction ft = fragmentManager.beginTransaction();
-        //ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+        ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
         ft.replace(R.id.content_frame, fragment).commit();
         
         // update selected item and title, then close the drawer
@@ -309,7 +320,7 @@ public class MainActivity extends ActionBarActivity {
 			setTitle("Clinicas");
 		else
 			setTitle(drawerMenuTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerExpList);
+       // mDrawerLayout.closeDrawer(mDrawerExpList);
     }
 
     @Override

@@ -39,6 +39,8 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.database.ArticlesDataSource;
+
 public class ArticleActivity extends ActionBarActivity {
 	
 	
@@ -55,6 +57,7 @@ public class ArticleActivity extends ActionBarActivity {
 	WebView articleContent, articleComments;
 	String articleId;
 	RatingBar rating;
+	ArticlesDataSource dataSource;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
@@ -72,6 +75,9 @@ public class ArticleActivity extends ActionBarActivity {
 		rating = (RatingBar) findViewById(R.id.article_rating);
 		comment = (EditText) findViewById(R.id.article_comment);
 		Button submitComments = (Button)findViewById(R.id.comment_submit);
+		
+		dataSource = new ArticlesDataSource(getApplicationContext());
+		
 		submitComments.setOnClickListener(new OnClickListener(
 				) {
 			
@@ -92,6 +98,20 @@ public class ArticleActivity extends ActionBarActivity {
 				
 			}
 		});
+		/*dataSource.open();
+		Article article = dataSource.getArticle(articleId);
+		if(article!=null){
+			articleContent.loadData(article.getContent(), "text/html", null);;
+			articleTitle.setText(article.getTitle());
+			articleDate.setText(article.getDate());
+			new ImageDownloader().execute(article.getPictureUrl());
+			new GetFeedback().execute();
+		}
+		else
+		{
+			
+		}
+		dataSource.close();*/
 		new LoadArticle().execute();
 	}
 

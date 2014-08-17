@@ -60,6 +60,16 @@ public class ArticlesDataSource {
 		    return articles;
 		  }
 		  
+		  public Article getArticle(String articleId) {
+			  Article article = new Article();
+			  Cursor cursor = database.query(ClinicasSQLiteHelper.TABLE_ARTICLES,
+				        allColumns, ClinicasSQLiteHelper.COLUMN_ARTICLE_ID+"=?", new String[]{articleId}, null, null, null);
+
+				    cursor.moveToFirst();
+				    article = cursorToArticle(cursor);
+			  return article;
+		  }
+		  
 		  public List<Article> getArticles(String categoryId){
 			  List<Article> articles = new ArrayList<Article>();
 			  Cursor cursor = database.query(ClinicasSQLiteHelper.TABLE_ARTICLES,

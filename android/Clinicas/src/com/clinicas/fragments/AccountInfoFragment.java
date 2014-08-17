@@ -40,7 +40,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.TextView;
 
 import com.clinicas.R;
 
@@ -50,8 +49,8 @@ public class AccountInfoFragment extends Fragment {
 	static String userId = "";
 	public static final String PREFS_NAME = "ClinicasPrefs";
 	EditText clinicasID,rptPassword, email, name;
-	TextView dob;
 	RadioGroup clinicasRG, diabetesRG, genderRG ;
+	Button dobBtn;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -66,14 +65,13 @@ public class AccountInfoFragment extends Fragment {
 		infoRoot.removeView(rptPassword);
 		email = (EditText)rootView.findViewById(R.id.info_email);
 		name = (EditText)rootView.findViewById(R.id.info_name);
-		dob = (TextView)rootView.findViewById(R.id.info_dob);
-		Button dobBtn = (Button)rootView.findViewById(R.id.dob_btn);
+		dobBtn = (Button)rootView.findViewById(R.id.dob_btn);
 		final OnDateSetListener dobListener = new OnDateSetListener() {
 			
 			@Override
 			public void onDateSet(DatePicker view, int year, int monthOfYear,
 					int dayOfMonth) {
-				dob.setText(monthOfYear+"/"+dayOfMonth+"/"+year);
+				dobBtn.setText(monthOfYear+"/"+dayOfMonth+"/"+year);
 				
 			}
 		};
@@ -242,7 +240,7 @@ public class AccountInfoFragment extends Fragment {
 			try {
 				name.setText(result.getString("name"));
 				email.setText(result.getString("email"));
-				dob.setText(result.getString("age"));
+				dobBtn.setText(result.getString("age"));
 				
 				if(result.getString("hasDiabetes").equals("1"))
 					diabetesRG.check(R.id.diabetes_yes);

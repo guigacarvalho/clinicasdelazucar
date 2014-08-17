@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/login_password"
         android:layout_below="@+id/login_password"
+        android:background="@drawable/button_background"
         android:layout_marginTop="31dp"
         android:text="Login" />
 
@@ -48,6 +49,7 @@
         android:id="@+id/register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_background"
         android:layout_alignBaseline="@+id/login_button"
         android:layout_alignBottom="@+id/login_button"
         android:layout_alignRight="@+id/login_password"

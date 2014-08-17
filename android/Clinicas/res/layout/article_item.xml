@@ -40,6 +40,9 @@
         android:id="@+id/article_rating"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/article_image"
         android:progressDrawable="@drawable/rating_bar_drawable" />
@@ -49,8 +52,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:paddingTop="5dp"
+        android:paddingRight="5dp"
         android:layout_alignTop="@+id/article_rating"
-        android:text=""
+        android:text="date"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 </RelativeLayout>
 
@@ -60,9 +65,8 @@
         android:layout_height="wrap_content"
         android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge" />
-<View	android:id="@+id/div2"
+	<View	android:id="@+id/div2"
              android:layout_width="fill_parent"
-             
              android:layout_height="2dp"
              android:background="#F78E1E"/>
     <TextView
@@ -71,7 +75,12 @@
         android:layout_height="wrap_content"
         android:text="@string/comments"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+<View	android:id="@+id/div3"
+             android:layout_width="fill_parent"
+             android:layout_below="@+id/article_image"
+             android:layout_height="2dp"
+             android:background="#000"/>
+    
     <WebView
         android:id="@+id/article_comments"
         android:layout_width="match_parent"

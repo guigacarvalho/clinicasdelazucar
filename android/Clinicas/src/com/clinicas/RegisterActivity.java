@@ -26,12 +26,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.TextView;
 
 public class RegisterActivity extends Activity {
 	static final String URL = "http://10.0.0.12/clinicas/index.php/clinicas_api/user/"; 
 	EditText name, email, clinicasId;
-	TextView dob;
 	RadioGroup gender, diabetes, clinicas;
 	
 	@Override
@@ -45,14 +43,13 @@ public class RegisterActivity extends Activity {
 		
 		name = (EditText)findViewById(R.id.info_name);
 		email = (EditText)findViewById(R.id.info_email);
-		dob = (TextView)findViewById(R.id.info_dob);
-		Button dobBtn = (Button)findViewById(R.id.dob_btn);
+		final Button dobBtn = (Button)findViewById(R.id.dob_btn);
 		final OnDateSetListener dobListener = new OnDateSetListener() {
 			
 			@Override
 			public void onDateSet(DatePicker view, int year, int monthOfYear,
 					int dayOfMonth) {
-				dob.setText(monthOfYear+"/"+dayOfMonth+"/"+year);
+				dobBtn.setText(monthOfYear+"/"+dayOfMonth+"/"+year);
 				
 			}
 		};
@@ -154,9 +151,9 @@ public class RegisterActivity extends Activity {
 	        System.out.println(response);
 	        
 	    } catch (ClientProtocolException e) {
-	        // TODO Auto-generated catch block
+	        
 	    } catch (IOException e) {
-	        // TODO Auto-generated catch block
+	        
 	    }
 	}
 
