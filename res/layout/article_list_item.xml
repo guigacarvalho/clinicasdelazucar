@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+		android:background="@drawable/card_bg"
+    >
+
+    <ImageView
+        android:id="@+id/article_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="#FFF"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="Article image"
+        android:src="@drawable/clinicas_logo" />
+
+    <TextView
+        android:id="@+id/article_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="11dp"
+        android:layout_toLeftOf="@+id/article_date"
+        android:layout_toRightOf="@+id/article_image"
+        android:textSize="12sp"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/article_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textSize="12sp"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+<!--     <ImageButton
+        android:id="@+id/imageButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/article_category"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:focusable="false"
+  		android:focusableInTouchMode="false"
+        android:src="@drawable/abc_ic_ab_back_holo_light" />
+ -->
+
+    <TextView
+        android:id="@+id/article_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/article_image"
+        android:layout_alignLeft="@+id/article_text"
+        android:layout_toLeftOf="@+id/article_date"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/article_text"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@+id/article_title"
+        android:layout_alignRight="@+id/article_date"
+        android:layout_below="@+id/article_title"
+        android:text=""
+        android:textSize="12sp" />
+
+</RelativeLayout>
