@@ -1,5 +1,6 @@
 package com.clinicas;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,7 +29,8 @@ public class ArticlesAdapter extends BaseAdapter {
     private ArrayList<Article> data;
     private static LayoutInflater inflater=null;
     ArrayList<HashMap<String, String>> categoriesMapArray;
-    
+    SimpleDateFormat sFormatter = new SimpleDateFormat("yyyy-mm-dd");
+	SimpleDateFormat dFormatter = new SimpleDateFormat("dd MMM, yyyy");
     
 	public ArticlesAdapter(Activity activity,
 			ArrayList<Article> data) {
@@ -101,7 +103,7 @@ public class ArticlesAdapter extends BaseAdapter {
 		//System.out.println("PictureURL:"+article.getPictureUrl());
 		imageLoader.displayImage(article.getPictureUrl(), img, options);
 		title.setText(article.getTitle());
-		date.setText(article.getDate());
+		date.setText(article.getFormattedDate(sFormatter, dFormatter));
 		for (HashMap<String, String> map : categoriesMapArray) {
 			
 			if(map.get(MainNewsFragment.KEY_CAT).equals(article.getCategoryId())){

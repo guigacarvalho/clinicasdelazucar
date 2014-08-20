@@ -4,9 +4,11 @@ import com.clinicas.MainFragmentAdapter;
 import com.clinicas.R;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 public class MainFragment extends Fragment {
 
 	ViewPager mViewPager;
+	PagerTabStrip tabStrip;
 	 MainFragmentAdapter fragAdapter;
 	 String[] tabNames;
 	@Override
@@ -29,14 +32,16 @@ public class MainFragment extends Fragment {
 		tabNames = getResources().getStringArray(R.array.tab_names);
 		
 		mViewPager = (ViewPager) rootView.findViewById(R.id.pager);
-        fragAdapter = new MainFragmentAdapter(getChildFragmentManager());
+        tabStrip = (PagerTabStrip) rootView.findViewById(R.id.pager_title_strip);
+        tabStrip.setTabIndicatorColor(Color.parseColor("#827d77"));
+		fragAdapter = new MainFragmentAdapter(getChildFragmentManager(), getActivity().getApplicationContext());
         
         mViewPager.setAdapter(fragAdapter);
         
         
         ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
-        actionBar.removeAllTabs();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        //actionBar.removeAllTabs();
+        //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         
         TabListener tabListener = new TabListener() {
 			
@@ -92,7 +97,7 @@ public class MainFragment extends Fragment {
             public void onPageSelected(int position) {
                 // When swiping between pages, select the
                 // corresponding tab.
-        		((ActionBarActivity)getActivity()).getSupportActionBar().setSelectedNavigationItem(position);
+        		//((ActionBarActivity)getActivity()).getSupportActionBar().setSelectedNavigationItem(position);
             }
         });
 
@@ -117,11 +122,31 @@ public class MainFragment extends Fragment {
 		    	break;
         	}
         }
+        
+        if(savedInstanceState != null) {
+            int index = savedInstanceState.getInt("index");
+           // System.out.println("Index of the selected tab:"+index);
+          //  ((ActionBarActivity)getActivity()).getSupportActionBar().setSelectedNavigationItem(index);
+            mViewPager.setCurrentItem(index);
+        }
 		return rootView;
 	}
-	
-	
-	
-	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		
+		super.onSaveInstanceState(outState);
+		
+		int i =mViewPager.getCurrentItem();
+		//System.out.println("Index of the selected tab:"+i);
+	    outState.putInt("index", i);
+	}
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
 
+	
+	
 }

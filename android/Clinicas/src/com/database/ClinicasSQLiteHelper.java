@@ -17,20 +17,20 @@ public class ClinicasSQLiteHelper extends SQLiteOpenHelper {
 	  public static final String COLUMN_CONTENT = "content";
 	  public static final String COLUMN_FAV = "numberOfFavorites";
 	  public static final String COLUMN_PICTURE_URL = "pictureUrl";
-	  
+	  public static final String COLUMN_CREATED_AT = "created_at";
 	  
 	  private static final String DATABASE_NAME = "articles.db";
-	  private static final int DATABASE_VERSION = 18;
+	  private static final int DATABASE_VERSION = 2;
 	  
-	  private static final String DATABASE_CREATE = "create table "
+	  private static final String ARTICLES_TABLE_CREATE = "create table "
 		      + TABLE_ARTICLES + "(" + COLUMN_ID
 		      + " integer primary key autoincrement, " + COLUMN_ARTICLE_ID
 		      + " text not null unique, "+COLUMN_CATEGORY_ID + " text not null, "+COLUMN_DATE + " text not null, "
 		      + COLUMN_TITLE + " text not null, "+ COLUMN_CONTENT + " text not null, " 
-		      + COLUMN_FAV + " text not null, " + COLUMN_PICTURE_URL + " text not null)";
+		      + COLUMN_FAV + " text not null, " + COLUMN_PICTURE_URL + " text not null, created_at DATETIME DEFAULT CURRENT_TIMESTAMP)";
 
 	  public static final String ARTICLE_TABLE_CREATE = "create table " + TABLE_ARTICLE +"("+ COLUMN_CONTENT + " text not null, "
-			  + COLUMN_ARTICLE_ID  + " text not null unique, "+ " FOREIGN KEY ("+COLUMN_ARTICLE_ID+") REFERENCES "+TABLE_ARTICLES
+			  + COLUMN_ARTICLE_ID  + " text not null unique, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, "+ " FOREIGN KEY ("+COLUMN_ARTICLE_ID+") REFERENCES "+TABLE_ARTICLES
 			  +" ("+COLUMN_ARTICLE_ID+"));";
 	  
 	public ClinicasSQLiteHelper(Context context, String name,
@@ -41,7 +41,7 @@ public class ClinicasSQLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		database.execSQL(DATABASE_CREATE);
+		database.execSQL(ARTICLES_TABLE_CREATE);
 		database.execSQL(ARTICLE_TABLE_CREATE);
 	}
 

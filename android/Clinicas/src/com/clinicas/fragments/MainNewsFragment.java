@@ -41,6 +41,7 @@ import android.widget.ListView;
 
 import com.clinicas.ArticleActivity;
 import com.clinicas.ArticlesAdapter;
+import com.clinicas.Constants;
 import com.clinicas.R;
 import com.database.Article;
 import com.database.ArticlesDataSource;
@@ -48,7 +49,7 @@ import com.database.ArticlesDataSource;
 public class MainNewsFragment extends Fragment {
 
 	ArticlesAdapter adapter;
-	static final String URL = "http://clinicas.engr.scu.edu/index.php/clinicas_api/articles/";
+	static final String URL = Constants.SERVER_URL+"/articles/";
     // XML node keys
     static String articleType ="";
      public static final String KEY_ID = "articleId";
@@ -73,6 +74,7 @@ public class MainNewsFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		
 	}
 
 	
@@ -97,6 +99,7 @@ public class MainNewsFragment extends Fragment {
 		return super.onOptionsItemSelected(item);
 	}
 
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -173,10 +176,10 @@ public class MainNewsFragment extends Fragment {
 			/*for (Article article : articles) {
 				;
 			}*/
-			System.out.println("DB rows:" +articles.size());
+			//System.out.println("DB rows:" +articles.size());
 		}
 		else{
-			System.out.println("DB rows:"+ dataSource.getAllArticles().size());
+			//System.out.println("DB rows:"+ dataSource.getAllArticles().size());
 			try{
 				
 				ConnectivityManager cm =
@@ -250,7 +253,7 @@ public class MainNewsFragment extends Fragment {
 			    try {
 			      jArray = new JSONArray(json);
 			      dataSource.open();
-			      //dataSource.deleteArticles();
+			      dataSource.deleteArticles();
 			      articles = new ArrayList<Article>();
 			      articleList = new ArrayList<HashMap<String,String>>();
 			      for(int i=0;i<jArray.length();i++){

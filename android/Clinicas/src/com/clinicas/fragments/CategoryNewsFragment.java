@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.clinicas.ArticleActivity;
 import com.clinicas.ArticlesAdapter;
+import com.clinicas.Constants;
 import com.clinicas.R;
 import com.database.Article;
 import com.database.ArticlesDataSource;
@@ -45,7 +46,7 @@ import com.database.ArticlesDataSource;
 public class CategoryNewsFragment extends Fragment {
 
 	ArticlesAdapter adapter;
-	static final String URL = "http://clinicas.engr.scu.edu/index.php/clinicas_api/articles/filter/";
+	static final String URL = Constants.SERVER_URL+"/articles/filter/";
     // XML node keys
     static String articleType ="";
      public static final String KEY_ID = "articleId";
@@ -228,5 +229,14 @@ public class CategoryNewsFragment extends Fragment {
 		
 		
 	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
+	
+	
 
 }

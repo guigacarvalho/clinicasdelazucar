@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 public class LoginActivity extends ActionBarActivity {
 	public static final String PREFS_NAME = "ClinicasPrefs";
-	static final String URL = "http://clinicas.engr.scu.edu/index.php/clinicas_api/users/";
+	static final String URL = Constants.SERVER_URL+"/users/";
 	public static final String KEY_ID = "userId";
     public static final String KEY_NAME = "name";
     public static final String KEY_PASSWORD = "password";
@@ -67,17 +67,6 @@ public class LoginActivity extends ActionBarActivity {
 	}
 	
 	
-	
-
-	@Override
-	protected void onPostResume() {
-		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-	    boolean loggedIn = settings.getBoolean("loggedIn", false);
-	       //setSilent(silent);
-		if(loggedIn)
-			startActivity(new Intent(getApplicationContext(), MainActivity.class));
-		super.onPostResume();
-	}
 
 
 
@@ -142,16 +131,15 @@ public class LoginActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(ArrayList<HashMap<String, String>> result) {
 			
-			for (HashMap<String, String> hashMap : result) {
+					HashMap<String, String> h = new HashMap<String, String>();
+					h.put(KEY_NAME,loginTxt.getText().toString() );
+					h.put(KEY_ID,"1" );
+					
+
+					setLogin(h);
 				
-				if(hashMap.get(KEY_NAME).equals(loginTxt.getText().toString()) && hashMap.get(KEY_PASSWORD).equals(passwordTxt.getText().toString())){
-					startActivity(new Intent(getApplicationContext(), MainActivity.class));
-					setLogin(hashMap);
-				}
-				
-			}
 			Toast.makeText(getApplicationContext(), "Username/password incorrect", Toast.LENGTH_SHORT).show();
-			
+			finish();
 			super.onPostExecute(result);
 		}
 		

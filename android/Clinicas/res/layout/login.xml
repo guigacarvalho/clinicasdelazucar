@@ -1,4 +1,7 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<RelativeLayout 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
@@ -37,13 +40,14 @@
 
     <Button
         android:id="@+id/login_button"
-        android:layout_width="125dp"
+        android:layout_width="120dp"
+        android:layout_marginRight="5dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/login_password"
         android:layout_below="@+id/login_password"
         android:background="@drawable/button_background"
         android:layout_marginTop="31dp"
-        android:text="Login" />
+        android:text="@string/login" />
 
     <Button
         android:id="@+id/register_button"
@@ -54,6 +58,7 @@
         android:layout_alignBottom="@+id/login_button"
         android:layout_alignRight="@+id/login_password"
         android:layout_toRightOf="@+id/login_button"
-        android:text="Register" />
+        android:text="@string/register" />
 
 </RelativeLayout>
+</ScrollView>

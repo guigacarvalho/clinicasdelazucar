@@ -19,7 +19,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -49,7 +51,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 @SuppressLint("NewApi")
 public class MainActivity extends ActionBarActivity {
 	public static final String PREFS_NAME = "ClinicasPrefs";
-	static final String URL = "http://clinicas.engr.scu.edu/index.php/clinicas_api/categories/";
+	static final String URL = Constants.SERVER_URL+"/categories/";
 	public static final String KEY_ID = "categoryId";
     public static final String KEY_TITLE = "title";
     public static final String KEY_DESC = "description";
@@ -66,6 +68,8 @@ public class MainActivity extends ActionBarActivity {
     Fragment fragment;
     
     
+    int currentGroupPos, currentChildPos;
+    
     List<String> listDataHeader;
     // hash for storing categories from the servers
     HashMap<String, List<String>> listDataChild;
@@ -79,6 +83,8 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_main);
+		currentGroupPos = -1;
+		currentChildPos = -1;
 		drawerMenuTitles = getResources().getStringArray(R.array.drawer_array);
 		mTitle =  getTitle();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -152,6 +158,24 @@ public class MainActivity extends ActionBarActivity {
 	}
 	
 	
+	
+	
+	@Override
+	protected void onPostResume() {
+		
+		super.onPostResume();
+		
+		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+	    boolean loggedIn = settings.getBoolean("loggedIn", false);
+	       //setSilent(silent);
+		if(!loggedIn)
+			startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+		
+	}
+
+
+
+
 	public int GetPixelFromDips(float pixels) {
 	    // Get the screen's density scale 
 	    final float scale = getResources().getDisplayMetrics().density;
@@ -244,6 +268,10 @@ public class MainActivity extends ActionBarActivity {
 		fragment = new CategoryNewsFragment();
         // Supply index input as an argument.
 		mDrawerLayout.closeDrawer(mDrawerExpList);
+		if(currentChildPos==childPosition)
+			return;
+		currentChildPos = childPosition;
+		currentGroupPos = -1;
 		Bundle args = new Bundle();
         args.putString("CATEGORY_ID", categoriesMapArray.get(childPosition).get(KEY_ID));
         fragment.setArguments(args);
@@ -261,6 +289,10 @@ public class MainActivity extends ActionBarActivity {
 	private void selectItem(int position) {
 		mDrawerLayout.closeDrawer(mDrawerExpList);
         // update the main content by replacing fragments
+		if(currentGroupPos==position)
+			return;
+		currentGroupPos=position;
+		currentChildPos = -1;
 		switch (position) {
 		case 0:
 			{
@@ -403,4 +435,15 @@ public class MainActivity extends ActionBarActivity {
     	
     	
     }
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		
+		super.onConfigurationChanged(newConfig);
+	}
+	
+	
+    
+    
+    
 }

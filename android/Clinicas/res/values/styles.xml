@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -40,5 +40,15 @@
         <item name="backgroundSplit">@drawable/ab_bottom_solid_clinicas</item>
         
     </style>
+    
+	
+	<style name="PagerTitleStrip">
+	    <item name="android:textAppearance">@style/My.TabText.Style</item>
+	    <item name="android:background">@drawable/ab_stacked_solid_clinicas</item>
+	   
+	</style>
+	
+
+    
 
 </resources>

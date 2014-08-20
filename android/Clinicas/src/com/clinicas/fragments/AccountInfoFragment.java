@@ -41,11 +41,12 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
+import com.clinicas.Constants;
 import com.clinicas.R;
 
 
 public class AccountInfoFragment extends Fragment {
-	static final String URL = "http://clinicas.engr.scu.edu/index.php/clinicas_api/user/";
+	static final String URL = Constants.SERVER_URL+"/user/";
 	static String userId = "";
 	public static final String PREFS_NAME = "ClinicasPrefs";
 	EditText clinicasID,rptPassword, email, name;
@@ -95,6 +96,7 @@ public class AccountInfoFragment extends Fragment {
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         clinicasRG = (RadioGroup)rootView.findViewById(R.id.clinicas_group);
         genderRG = (RadioGroup) rootView.findViewById(R.id.gender_group);
+        final LinearLayout clinicasLayout = (LinearLayout) rootView.findViewById(R.id.clinicas_group_layout);
         clinicasRG.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -104,6 +106,22 @@ public class AccountInfoFragment extends Fragment {
 				}
 				else if(checkedId == R.id.clinicas_yes){
 					clinicasID.setVisibility(View.VISIBLE);
+				}
+				
+			}
+		});
+        diabetesRG.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				
+				if(checkedId == R.id.diabetes_yes){
+					clinicasLayout.setVisibility(View.VISIBLE);
+					clinicasID.setVisibility(View.VISIBLE);
+				}
+				else if(checkedId == R.id.diabetes_no){
+					clinicasLayout.setVisibility(View.INVISIBLE);
+					clinicasID.setVisibility(View.INVISIBLE);
 				}
 				
 			}
@@ -279,5 +297,14 @@ public class AccountInfoFragment extends Fragment {
     	
     	
     }
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
+	
+	
 	
 }

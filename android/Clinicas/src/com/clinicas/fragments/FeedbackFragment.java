@@ -28,11 +28,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.clinicas.Constants;
 import com.clinicas.R;
 
 public class FeedbackFragment extends Fragment {
 
-	static String URL = "http://clinicas.engr.scu.edu/index.php/clinicas_api/feedback/";
+	static String URL = Constants.SERVER_URL+"/clinicas_api/feedback/";
 	Spinner feedbackTypes;
 	EditText url, msg;
 	
@@ -126,6 +127,16 @@ public class FeedbackFragment extends Fragment {
 	    }
 	    return -1;
 	}
+
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
+	
+	
 	
 	
 }

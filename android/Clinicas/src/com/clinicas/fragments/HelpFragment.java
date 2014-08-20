@@ -1,8 +1,10 @@
 package com.clinicas.fragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
@@ -17,6 +19,7 @@ import com.clinicas.R;
 
 public class HelpFragment extends Fragment {
 	ViewPager mViewPager;
+	PagerTabStrip tabStrip;
 	 HelpFragmentAdapter fragAdapter;
 	 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -24,14 +27,16 @@ public class HelpFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.help_fragment, container, false);
 		
 		mViewPager = (ViewPager) rootView.findViewById(R.id.help_pager);
-        fragAdapter = new HelpFragmentAdapter(getChildFragmentManager());
+		tabStrip = (PagerTabStrip) rootView.findViewById(R.id.pager_title_strip);
+        tabStrip.setTabIndicatorColor(Color.parseColor("#827d77"));
+		fragAdapter = new HelpFragmentAdapter(getChildFragmentManager(), getActivity().getApplicationContext());
         
         mViewPager.setAdapter(fragAdapter);
         
         
         ActionBar actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
-        actionBar.removeAllTabs();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        //actionBar.removeAllTabs();
+       // actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         TabListener tabListener = new TabListener() {
 			
 			@Override
@@ -57,7 +62,7 @@ public class HelpFragment extends Fragment {
             public void onPageSelected(int position) {
                 // When swiping between pages, select the
                 // corresponding tab.
-        		((ActionBarActivity)getActivity()).getSupportActionBar().setSelectedNavigationItem(position);
+        		//((ActionBarActivity)getActivity()).getSupportActionBar().setSelectedNavigationItem(position);
             }
         });
 
@@ -84,6 +89,12 @@ public class HelpFragment extends Fragment {
 	public void onDestroyView() {
 		
 		super.onDestroyView();
+	}
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
 	}
 	
 	

@@ -12,6 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:contentDescription="Article image"
+        android:scaleType="centerCrop"
         android:src="@drawable/clinicas_logo" />
 
     <TextView

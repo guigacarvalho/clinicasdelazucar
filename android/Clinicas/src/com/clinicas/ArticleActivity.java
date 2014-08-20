@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,50 +23,70 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.database.ArticlesDataSource;
+import com.clinicas.NotifyingScrollView.OnScrollChangedListener;
+import com.database.Article;
+import com.database.ArticleDataSource;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 public class ArticleActivity extends ActionBarActivity {
 	
 	
 
 
-	static final String URL = "http://clinicas.engr.scu.edu/index.php/clinicas_api/";
-	static String ARTICLE_URL = "article/articleId/";
-	static String GET_REVIEW_URL = "reviews/articleId/";
+	static final String URL = Constants.SERVER_URL;
+	static String ARTICLE_URL = "/article/articleId/";
+	static String GET_REVIEW_URL = "/reviews/articleId/";
 	
-	static String PUT_REVIEW_URL = "review";
+	static String PUT_REVIEW_URL = "/review";
 	ImageView articleImage;
 	TextView articleTitle,  articleDate;
 	EditText comment;
 	WebView articleContent, articleComments;
 	String articleId;
 	RatingBar rating;
-	ArticlesDataSource dataSource;
+	ArticleDataSource dataSource;
+	NotifyingScrollView articleScrollView;
+	
+	private Drawable mActionBarBackgroundDrawable;
+	@SuppressLint("InlinedApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		
+		mActionBarBackgroundDrawable = getResources().getDrawable(R.drawable.actionbar_bg);
+		mActionBarBackgroundDrawable.setAlpha(10);
+		if(android.os.Build.VERSION.SDK_INT>11){
+			getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+			getSupportActionBar().setBackgroundDrawable(mActionBarBackgroundDrawable);
+			getSupportActionBar().setTitle("");
+			
+		}
 		setContentView(R.layout.article_item);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_action_navigation_previous_item);
+		
 		articleImage = (ImageView)findViewById(R.id.article_image);
 		articleTitle = (TextView) findViewById(R.id.article_title);
 		articleContent = (WebView) findViewById(R.id.article_content);
@@ -74,9 +95,27 @@ public class ArticleActivity extends ActionBarActivity {
 		articleComments = (WebView) findViewById(R.id.article_comments);
 		rating = (RatingBar) findViewById(R.id.article_rating);
 		comment = (EditText) findViewById(R.id.article_comment);
+		articleScrollView = (NotifyingScrollView)findViewById(R.id.article_scrollview);
+		
+		articleScrollView.setOnScrollChangedListener(new OnScrollChangedListener() {
+			
+			@SuppressLint("NewApi")
+			@Override
+			public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+				if(android.os.Build.VERSION.SDK_INT>11){
+				final int headerHeight = findViewById(R.id.article_image).getHeight() - getActionBar().getHeight();
+	            final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
+	            final int newAlpha = (int) (ratio * 255);
+	            
+	            mActionBarBackgroundDrawable.setAlpha(newAlpha);
+				}
+				
+			}
+		});
+		
 		Button submitComments = (Button)findViewById(R.id.comment_submit);
 		
-		dataSource = new ArticlesDataSource(getApplicationContext());
+		dataSource = new ArticleDataSource(getApplicationContext());
 		
 		submitComments.setOnClickListener(new OnClickListener(
 				) {
@@ -93,7 +132,6 @@ public class ArticleActivity extends ActionBarActivity {
 			@Override
 			public void onRatingChanged(RatingBar ratingBar, float rating,
 					boolean fromUser) {
-				System.out.println("here"+rating);
 				new SendFeedback().execute();
 				
 			}
@@ -112,7 +150,14 @@ public class ArticleActivity extends ActionBarActivity {
 			
 		}
 		dataSource.close();*/
-		new LoadArticle().execute();
+		dataSource.open();
+		if(dataSource.articleExists(articleId))
+			loadArticleFromDB();
+		else
+			new LoadArticle().execute();
+		
+		dataSource.close();
+		
 	}
 
 	@Override
@@ -168,14 +213,23 @@ public class ArticleActivity extends ActionBarActivity {
 			    }
 			    // try parse the string to a JSON object
 			    try {
-			      jArray = new JSONArray(json);
-			      
+			    		dataSource.open();
+			    		jArray = new JSONArray(json);
+			    		
 			      
 				    	jObj = jArray.getJSONObject(0);
-				    	jObj = new JSONObject(json);
+				    	//jObj = new JSONObject(json);
+				    	Article a = new Article();
+				    	a.setArticleId(articleId);
+				    	a.setContent(jObj.getString("content"));
+				    	dataSource.createArticle(a);
 				    	
 			    } catch (JSONException e) {
-			      
+			      e.printStackTrace();
+			    }
+			    
+			    finally{
+			    	dataSource.close();
 			    }
 			return jObj;
 		}
@@ -183,16 +237,7 @@ public class ArticleActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(JSONObject result) {
 		
-			try {
-				articleContent.loadData(result.getString("content"), "text/html", null);;
-				articleTitle.setText(result.getString("title"));
-				articleDate.setText(result.getString("date"));
-				new ImageDownloader().execute(result.getString("pictureUrl"));
-				new GetFeedback().execute();
-			} catch (JSONException e) {
-				
-				e.printStackTrace();
-			}
+			loadArticleFromDB();
 			super.onPostExecute(result);
 		}
 		
@@ -200,8 +245,33 @@ public class ArticleActivity extends ActionBarActivity {
 		
 	}
 	
+	void loadArticleFromDB(){
+		dataSource.open();
+		Article article = dataSource.getArticle(articleId);
+		articleContent.loadData(article.getContent(), "text/html", null);
+		articleTitle.setText(article.getTitle());
+		SimpleDateFormat sFormatter = new SimpleDateFormat("yyyy-mm-dd");
+		SimpleDateFormat dFormatter = new SimpleDateFormat("dd MMM, yyyy");
+		articleDate.setText(article.getFormattedDate(sFormatter, dFormatter));
+		
+		
+		ImageLoader imageLoader = ImageLoader.getInstance();
+		DisplayImageOptions options = new DisplayImageOptions.Builder()
+						.resetViewBeforeLoading(true)
+						.showImageForEmptyUri(R.drawable.logo_clinicas)
+						.showImageOnFail(R.drawable.logo_clinicas)
+						.showImageOnLoading(R.drawable.logo_clinicas)
+						.cacheOnDisk(true)
+						.imageScaleType(ImageScaleType.EXACTLY)
+						.build();
+		
+		imageLoader.displayImage(article.getPictureUrl(), articleImage, options);
+		
+		new GetFeedback().execute();
+		dataSource.close();
+	}
 	
-	class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
+	/*class ImageDownloader extends AsyncTask<String, Void, Bitmap> {
 		  
 
 		  protected Bitmap doInBackground(String... urls) {
@@ -219,7 +289,7 @@ public class ArticleActivity extends ActionBarActivity {
 		  protected void onPostExecute(Bitmap result) {
 		      articleImage.setImageBitmap(result);
 		  }
-		}
+		}*/
 	
 	class GetFeedback extends AsyncTask<Void, Void, JSONArray> {
 		  

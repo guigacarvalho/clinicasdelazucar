@@ -3,15 +3,17 @@ package com.clinicas;
 
 import com.clinicas.fragments.MainNewsFragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class MainFragmentAdapter extends FragmentPagerAdapter {
-
-	public MainFragmentAdapter(FragmentManager fm) {
+	Context context;
+	public MainFragmentAdapter(FragmentManager fm, Context _c) {
 		super(fm);
+		context=_c;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -47,16 +49,9 @@ public class MainFragmentAdapter extends FragmentPagerAdapter {
 	
 	 @Override
      public CharSequence getPageTitle(int position) {
-        // Locale l = Locale.getDefault();
-         switch (position) {
-         case 0:
-             return "Latest";
-         case 1:
-             return "Top";
-         case 2:
-             return "Favorites";
-         }
-         return null;
+		 String[] tabNames=context.getResources().getStringArray(R.array.tab_names);
+		
+         return tabNames[position];
      }
 
 	@Override

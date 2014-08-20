@@ -18,7 +18,7 @@ public class ArticlesDataSource {
 	      ClinicasSQLiteHelper.COLUMN_ARTICLE_ID, ClinicasSQLiteHelper.COLUMN_CATEGORY_ID, 
 	      ClinicasSQLiteHelper.COLUMN_DATE, ClinicasSQLiteHelper.COLUMN_FAV,
 	      ClinicasSQLiteHelper.COLUMN_PICTURE_URL, ClinicasSQLiteHelper.COLUMN_TITLE, 
-	      ClinicasSQLiteHelper.COLUMN_CONTENT };
+	      ClinicasSQLiteHelper.COLUMN_CONTENT, ClinicasSQLiteHelper.COLUMN_CREATED_AT };
 	  
 	  public ArticlesDataSource(Context context){
 		  dbHelper = new ClinicasSQLiteHelper(context, null, null, 0);
@@ -37,10 +37,14 @@ public class ArticlesDataSource {
 		    System.out.println("Article deleted with id: " + id);
 		    database.delete(ClinicasSQLiteHelper.TABLE_ARTICLES, ClinicasSQLiteHelper.COLUMN_ID
 		        + " = " + id, null);
+
+		    database.delete(ClinicasSQLiteHelper.TABLE_ARTICLE, ClinicasSQLiteHelper.COLUMN_ARTICLE_ID
+		        + " = " + article.getArticleId(), null);
 		  }
 	  
 	  public void deleteArticles(){
 		  database.delete(ClinicasSQLiteHelper.TABLE_ARTICLES, null, null);
+		  database.delete(ClinicasSQLiteHelper.TABLE_ARTICLE, null, null);
 	  }
 
 		  public List<Article> getAllArticles() {
@@ -74,9 +78,11 @@ public class ArticlesDataSource {
 			  List<Article> articles = new ArrayList<Article>();
 			  Cursor cursor = database.query(ClinicasSQLiteHelper.TABLE_ARTICLES,
 				        allColumns, ClinicasSQLiteHelper.COLUMN_CATEGORY_ID+"=?", new String[]{categoryId}, null, null, null);
-
+			  
+			 
 				    cursor.moveToFirst();
 				    while (!cursor.isAfterLast()) {
+				    	 
 				      Article article = cursorToArticle(cursor);
 				      articles.add(article);
 				      

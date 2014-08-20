@@ -1,5 +1,9 @@
 package com.database;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Article {
 
 	/*
@@ -69,6 +73,19 @@ public class Article {
 		this.pictureUrl = pictureUrl;
 	}
 	
+	
+	public String getFormattedDate(SimpleDateFormat sFormatter, SimpleDateFormat dFormatter){
+		
+		try {
+			
+			Date fDate =  sFormatter.parse(date);
+			return dFormatter.format(fDate);
+		} catch (ParseException e) {
+			
+			e.printStackTrace();
+		}
+		return "";
+	}
 	
 
 }
