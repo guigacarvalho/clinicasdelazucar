@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Clinicas</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_fav">Favorite</string>
+    <string name="action_share">Share</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+	<string name="email">Correo electrónico</string>
+	<string name="password" >Clave</string>
+	<string name="login">Iniciar sesión</string>
+	<string name="register">Registrarse</string>
+	
+	
+	<string-array name="tab_names">
+		<item name="latest">Recientes</item>
+		<item name="top">Mejor Calificados</item>
+		<item name="favorites">Favoritos</item>
+		    
+	</string-array>
+
+	<string name="article_suggestion">Sugerir un articulo</string>
+	<string name="url">Dirección web</string>
+	<string name="message">Descripción</string>
+	<string name="submit">Enviar</string>
+	<string name="registration">Registro</string>
+	<string name="name">Nombres y Apellidos</string>
+	<string name="age">Edad</string>
+	<string name="gender">Género</string>
+	<string name="male">M</string>
+	<string name="female">F</string>
+	<string name="diabetes_patient">¿Tienes diabetes?</string>
+	<string name="yes">Y</string>
+	<string name="no">N</string>
+	<string name="clinicas_patient">¿Eres Paciente de Clínicas del Azúcar?</string>
+	<string name="clinicas_id">Número de Miembro</string>
+	
+	<string name="comments">Comentarios</string>
+	<string name="about">Acerca de Nosotros</string>
+	<string name="faqs">Preguntas Frecuentes</string>
+	<string-array name="drawer_array">
+	    	<item name="home">Principal</item>
+	    	<item name="category">Categoría</item>
+			<item name="feedback">Sugerencias</item>
+			<item name="account_info">Información de Cuenta</item>
+			<item name="help">Ayuda</item>
+			<item name="login">Iniciar sesión</item>
+	</string-array>
+</resources>

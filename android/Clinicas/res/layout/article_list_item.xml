@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+		android:background="@drawable/card_bg"
+		android:paddingLeft="0dp"
+		android:paddingTop="0dp"
+		android:paddingBottom="2dp"
+    >
+
+    <ImageView
+        android:id="@+id/article_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="#FFF"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="Article image"
+        android:scaleType="centerCrop"
+        android:src="@drawable/clinicas_logo" />
+
+    <TextView
+        android:id="@+id/article_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/article_date"
+        android:layout_marginLeft="11dp"
+        android:layout_toRightOf="@+id/article_image"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/article_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/article_category"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="12sp" />
+
+<!--     <ImageButton
+        android:id="@+id/imageButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/article_category"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:focusable="false"
+  		android:focusableInTouchMode="false"
+        android:src="@drawable/abc_ic_ab_back_holo_light" />
+ -->
+
+    <TextView
+        android:id="@+id/article_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/article_image"
+        android:layout_alignLeft="@+id/article_text"
+        android:layout_toLeftOf="@+id/article_date"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/article_text"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_alignLeft="@+id/article_title"
+        android:layout_alignRight="@+id/article_date"
+        android:layout_below="@+id/article_title"
+        android:text=""
+        android:textSize="12sp" />
+
+</RelativeLayout>
