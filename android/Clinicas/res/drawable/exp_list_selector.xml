@@ -1,4 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_empty="true" android:state_expanded="false" android:drawable="@android:color/transparent"/>
-    <item android:drawable="@drawable/navigation_collapse" />
-</selector>
