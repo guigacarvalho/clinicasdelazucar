@@ -56,7 +56,7 @@ public class MainNewsFragment extends Fragment {
 	static String URL = Constants.SERVER_URL;
 	static final String LATEST_URL = URL+"after/";
 	static String userId = "", authToken="";
-	static ArrayList<Article> favArticles = new ArrayList<Article>();
+	public static ArrayList<String> favArticles = new ArrayList<String>();
     // XML node keys
     
     public static final String KEY_ID = "articleId";
@@ -146,8 +146,9 @@ public class MainNewsFragment extends Fragment {
 				i.putExtra("articleId", aId);
 				if(loggedIn){
 					boolean favArticle = false;
-					for (Article a : favArticles) {
-						if(aId.equals(a.getArticleId()))
+					for (String a : favArticles) {
+						System.out.println(aId+":"+a);
+						if(aId.equals(a))
 							favArticle = true;
 					}
 					i.putExtra("favorite", favArticle);
@@ -348,7 +349,7 @@ public class MainNewsFragment extends Fragment {
 				    	//dataSource.createArticle(article);
 				    	articles.add(article);
 				    	if(typeFavorites)
-				    		favArticles.add(article);
+				    		favArticles.add(article.getArticleId());
 				    	//System.out.println("size:"+articles.size());
 				    	HashMap<String, String> map = new HashMap<String, String>();
 				    	map.put(KEY_TITLE, jObj.getString(KEY_TITLE));

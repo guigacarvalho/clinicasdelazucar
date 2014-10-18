@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -49,6 +47,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.clinicas.NotifyingScrollView.OnScrollChangedListener;
+import com.clinicas.fragments.MainNewsFragment;
 import com.database.Article;
 import com.database.ArticleDataSource;
 import com.database.LoginDataSource;
@@ -265,9 +264,10 @@ public class ArticleActivity extends ActionBarActivity {
 			        HttpResponse response = httpclient.execute(httpput);
 			        //System.out.println(response.getStatusLine().getStatusCode());
 			        if(response.getStatusLine().getStatusCode()==200){
-			        	
+			        	MainNewsFragment.favArticles.add(articleId);
 			        	return 200;
 			        }
+			        
 		    	}
 		    	else{
 		    		//HttpDeleteWithBody httpDel = new HttpDeleteWithBody(ARTICLE_FAV_URL+"userId/"+userId+"/authToken/"+auth_token);
@@ -277,9 +277,15 @@ public class ArticleActivity extends ActionBarActivity {
 				        // Execute HTTP Post Request
 				        HttpResponse response = httpclient.execute(httpDel);
 				        if(response.getStatusLine().getStatusCode()==200){
-				        	
+				        	for (int i=0;i<MainNewsFragment.favArticles.size();i++) {
+								if(articleId.equals(MainNewsFragment.favArticles.get(i))){
+									MainNewsFragment.favArticles.remove(i);
+								}
+									
+							}
 				        	return 200;
 				        }
+				        
 		    	}
 		        
 		    } catch (ClientProtocolException e) {
